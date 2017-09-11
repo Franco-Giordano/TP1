@@ -86,7 +86,7 @@ def pruebas_life_crear():
     assert life_crear(['#.', '.#']) == [[True, False], [False, True]]
 
 print(life_crear(['....','..#.','.#..','....']))
-
+'''
 #-----------------------------------------------------------------------------
 
 def life_mostrar(life):
@@ -98,17 +98,7 @@ def life_mostrar(life):
     mostrar en la pantalla. Cada una de las cadenas representa una fila
     y cada caracter debe ser '.' (vacío) o '#' (célula).
     """
-    mapa_cadenas = []
-    for fila in life:
-        sublista_temporal = []
-        for elemento in fila:
-            if elemento == True:
-                sublista_temporal += '#'
-            else:
-                sublista_temporal += '.'
-        mapa_cadenas.append(sublista_temporal)
-    return mapa_cadenas
-
+    return '???'
 
 def pruebas_life_mostrar():
     """Prueba el correcto funcionamiento de life_mostrar()."""
@@ -129,13 +119,8 @@ def cant_adyacentes(life, f, c):
     derecho, y viceversa. Las celdas del borde superior están conectadas hacia
     arriba con las celdas del borde inferior, y viceversa.
     """
-    celdas_arriba = life[f-1][c-1:c+1]
-    celdas_abajo = life[f+1][c-1:c+1]
-    celdas_costados[f][c-1:c+1:2]
     return '???'
 
-
-'''
 def pruebas_cant_adyacentes():
     """Prueba el correcto funcionamiento de cant_adyacentes()."""
     assert cant_adyacentes(life_crear(['.']), 0, 0) == 0
