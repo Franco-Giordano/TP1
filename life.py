@@ -20,7 +20,7 @@ Las transiciones dependen del número de células vecinas vivas:
 * Una célula viva con 2 ó 3 células vecinas vivas sigue viva, en otro caso
   muere o permanece muerta (por "soledad" o "superpoblación").
 """
-
+'''
 def main():
     """
     Función principal del programa. Crea el estado inicial de Game of LIfe
@@ -46,7 +46,7 @@ def main():
         life = life_siguiente(life)
 
 #-----------------------------------------------------------------------------
-
+'''
 def life_crear(mapa):
     """
     Crea el estado inicial de Game of life a partir de una disposición
@@ -60,7 +60,20 @@ def life_crear(mapa):
     sublista representa una fila, y cada elemento de la fila es False (vacío)
     o True (célula).
     """
-    return '???'
+    mapa_true_false = []
+    for fila in mapa:
+        sublista_temporal = []
+        for elemento in fila:
+            if elemento == '#':
+                sublista_temporal.extend([True])
+            else:
+                sublista_temporal.extend([False])
+        mapa_true_false.append(sublista_temporal)
+    return mapa_true_false
+    
+    
+    
+    
 
 def pruebas_life_crear():
     """Prueba el correcto funcionamiento de life_crear()."""
@@ -72,6 +85,8 @@ def pruebas_life_crear():
     assert life_crear(['#']) == [[True]]
     assert life_crear(['#.', '.#']) == [[True, False], [False, True]]
 
+print(life_crear(['....','..#.','.#..','....']))
+'''
 #-----------------------------------------------------------------------------
 
 def life_mostrar(life):
@@ -178,3 +193,4 @@ def pruebas():
 
 pruebas()
 main()
+'''
