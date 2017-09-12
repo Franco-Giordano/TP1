@@ -85,7 +85,6 @@ def pruebas_life_crear():
     assert life_crear(['#']) == [[True]]
     assert life_crear(['#.', '.#']) == [[True, False], [False, True]]
 
-print(life_crear(['....','..#.','.#..','....']))
 
 #-----------------------------------------------------------------------------
 
@@ -129,13 +128,29 @@ def cant_adyacentes(life, f, c):
     derecho, y viceversa. Las celdas del borde superior están conectadas hacia
     arriba con las celdas del borde inferior, y viceversa.
     """
-    celdas_arriba = life[f-1][c-1:c+1]
-    celdas_abajo = life[f+1][c-1:c+1]
-    celdas_costados[f][c-1:c+1:2]
-    return '???'
+    cant_filas = len(life)
+    cant_columnas = len(life[0])
+    
+    fila_sup = (f-1)%cant_filas
+    fila_inf = (f+1)%cant_filas
+    
+    col_izq = (c-1)%cant_columnas
+    col_der = (c+1)%cant_columnas
+    
+    celdas_arriba = life[fila_sup][col_izq:col_der]
+    celdas_abajo = life[fila_inf][col_izq:col_der]
+    celdas_costados = life[f][col_izq:col_der:2]
+    celdas_totales = celdas_arriba + celdas_abajo + celdas_costados
+    
+    numero_vivas = 0
+    for celda in celdas_totales:
+        if celda == True:
+            numero_vivas += 1
+    
+    return numero_vivas
 
 
-'''
+
 def pruebas_cant_adyacentes():
     """Prueba el correcto funcionamiento de cant_adyacentes()."""
     assert cant_adyacentes(life_crear(['.']), 0, 0) == 0
@@ -160,6 +175,11 @@ def celda_siguiente(life, f, c):
     """
     celda = life[f][c]
     n = cant_adyacentes(life, f, c)
+    estado_siguiente = False
+    
+    if celda and (n <= 3 and n >= 2):
+        estado_siguiente = True
+    
     return '???'
 
 def pruebas_celda_siguiente():
@@ -174,6 +194,7 @@ def pruebas_celda_siguiente():
     assert celda_siguiente(life_crear(['.#.', '#.#', '.#.']), 1, 1) == False
     assert celda_siguiente(life_crear(['.#.', '..#', '.#.']), 1, 1) == True
 
+'''
 #-----------------------------------------------------------------------------
 
 def life_siguiente(life):
