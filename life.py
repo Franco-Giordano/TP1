@@ -20,7 +20,7 @@ Las transiciones dependen del número de células vecinas vivas:
 * Una célula viva con 2 ó 3 células vecinas vivas sigue viva, en otro caso
   muere o permanece muerta (por "soledad" o "superpoblación").
 """
-'''
+
 def main():
     """
     Función principal del programa. Crea el estado inicial de Game of LIfe
@@ -46,7 +46,7 @@ def main():
         life = life_siguiente(life)
 
 #-----------------------------------------------------------------------------
-'''
+
 def life_crear(mapa):
     """
     Crea el estado inicial de Game of life a partir de una disposición
@@ -84,7 +84,7 @@ def pruebas_life_crear():
     assert life_crear(['.']) == [[False]]
     assert life_crear(['#']) == [[True]]
     assert life_crear(['#.', '.#']) == [[True, False], [False, True]]
-
+    
 
 #-----------------------------------------------------------------------------
 
@@ -115,7 +115,7 @@ def pruebas_life_mostrar():
     assert life_mostrar([[False]]) == ['.']
     assert life_mostrar([[True]]) == ['#']
     assert life_mostrar([[True, False], [False, True]]) == ['#.', '.#']
-
+    
 #-----------------------------------------------------------------------------
 
 def cant_adyacentes(life, f, c):
@@ -130,23 +130,13 @@ def cant_adyacentes(life, f, c):
     """
     cant_filas = len(life)
     cant_columnas = len(life[0])
+    celdas_totales = [life[(f+i)%cant_filas][(c+j)%cant_columnas] for i in range(-1,2) for j in range(-1,2) if not ( j == 0 and i == 0)]
     
-    fila_sup = (f-1)%cant_filas
-    fila_inf = (f+1)%cant_filas
-    
-    col_izq = (c-1)%cant_columnas
-    col_der = (c+1)%cant_columnas
-    
-    celdas_arriba = life[fila_sup][col_izq:col_der]
-    celdas_abajo = life[fila_inf][col_izq:col_der]
-    celdas_costados = life[f][col_izq:col_der:2]
-    celdas_totales = celdas_arriba + celdas_abajo + celdas_costados
-    
+
     numero_vivas = 0
     for celda in celdas_totales:
-        if celda == True:
+        if celda:
             numero_vivas += 1
-    
     return numero_vivas
 
 
@@ -162,7 +152,7 @@ def pruebas_cant_adyacentes():
     assert cant_adyacentes(life_crear(['##', '##']), 0, 0) == 8
     assert cant_adyacentes(life_crear(['.#.', '#.#', '.#.']), 1, 1) == 4
     assert cant_adyacentes(life_crear(['.#.', '..#', '.#.']), 1, 1) == 3
-
+    
 #-----------------------------------------------------------------------------
 
 def celda_siguiente(life, f, c):
@@ -176,11 +166,14 @@ def celda_siguiente(life, f, c):
     celda = life[f][c]
     n = cant_adyacentes(life, f, c)
     estado_siguiente = False
-    
-    if celda and (n <= 3 and n >= 2):
-        estado_siguiente = True
-    
-    return '???'
+    celda_viva = (celda == True)
+    hay_tres_vecinos_vivos = (n == 3)
+    hay_dos_vecinos_vivos = (n==2)
+    if celda_viva and (hay_dos_vecinos_vivos or hay_tres_vecinos_vivos):
+        return True
+    if (not celda_viva) and hay_tres_vecinos_vivos:
+        return True
+    return False
 
 def pruebas_celda_siguiente():
     """Prueba el correcto funcionamiento de celda_siguiente()."""
@@ -193,8 +186,9 @@ def pruebas_celda_siguiente():
     assert celda_siguiente(life_crear(['##', '##']), 0, 0) == False
     assert celda_siguiente(life_crear(['.#.', '#.#', '.#.']), 1, 1) == False
     assert celda_siguiente(life_crear(['.#.', '..#', '.#.']), 1, 1) == True
+    
 
-'''
+
 #-----------------------------------------------------------------------------
 
 def life_siguiente(life):
@@ -228,5 +222,8 @@ def pruebas():
     pruebas_celda_siguiente()
 
 pruebas()
+
 main()
-'''
+
+
+
